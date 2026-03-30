@@ -60,8 +60,8 @@ function getFilteredItems() {
   });
 }
 
-function getVisibleItems() {
-  return [...getFilteredItems()].sort(compareBy(state.sortBy));
+function getSortedItems(filteredItems) {
+  return [...filteredItems].sort(compareBy(state.sortBy));
 }
 
 function getVisibleItems() {
@@ -113,6 +113,7 @@ export {
   DATA_URL,
   clearFilters,
   formatTime,
+  getActiveSummary,
   getKindCounts,
   getSelectedVisibleItem,
   getVisibleItems,
