@@ -3,7 +3,7 @@ import {
   favBtn,
   favFilterBtn,
   grid,
-  kindChips
+  kindChips,
   reloadBtn,
   retryBtn,
   searchInput,
