@@ -3,6 +3,7 @@ import {
   favBtn,
   favFilterBtn,
   grid,
+  kindChips
   reloadBtn,
   retryBtn,
   searchInput,
@@ -20,6 +21,17 @@ grid.addEventListener("click", (event) => {
   if (!button) return;
 
   state.selectedId = button.dataset.id || null;
+  render();
+});
+
+kindChips.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+
+  const button = target.closest("button.chip");
+  if (!button) return;
+
+  state.activeKind = button.dataset.kind || "all";
   render();
 });
 

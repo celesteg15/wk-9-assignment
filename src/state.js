@@ -54,12 +54,18 @@ function getFilteredItems() {
     const matchesFavorites = !state.showFavoritesOnly || state.favorites.has(item.id);
 
     // Week 9 TODO: also filter by state.activeKind.
-    return matchesQuery && matchesFavorites;
+    const matchesKind = state.activeKind === "all" || item.kind === state.activeKind;
+
+    return matchesQuery && matchesKind && matchesFavorites;
   });
 }
 
 function getVisibleItems() {
   return [...getFilteredItems()].sort(compareBy(state.sortBy));
+}
+
+function getVisibleItems() {
+  return getSortedItems(getFilteredItems());
 }
 
 function getSelectedVisibleItem(visibleItems) {
@@ -68,7 +74,32 @@ function getSelectedVisibleItem(visibleItems) {
 
 function getKindCounts(items) {
   // Week 9 TODO: replace this placeholder with a reduce() summary over items.
-  return {};
+  return items.reduce((acc, item) => {
+    acc[item.kind] = (acc[item.kind] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function getActiveSummary(visibleItems) {
+  const parts = [];
+
+  if (state.query.trim() !== "") parts.push(`matching "${state.query.trim()}"`);
+  if (state.activeKind !== "all") parts.push(`in ${state.activeKind}`);
+  if (state.showFavoritesOnly) parts.push("favorites only");
+
+  const sortLabel = {
+    "title-asc": "title",
+    "minutes-desc": "minutes",
+    "kind-asc": "kind",
+  }[state.sortBy] || state.sortBy;
+
+  const prefix = `${visibleItems.length} result${visibleItems.length === 1 ? "" : "s"}`;
+
+  if (parts.length === 0) {
+    return `${prefix}, sorted by ${sortLabel}.`;
+  }
+
+  return `${prefix} ${parts.join(" • ")}, sorted by ${sortLabel}.`;
 }
 
 function clearFilters() {
