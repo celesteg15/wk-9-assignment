@@ -59,10 +59,6 @@ reloadBtn.addEventListener("click", () => {
   loadItems(render);
 });
 
-retryBtn.addEventListener("click", () => {
-  loadItems(render);
-});
-
 favBtn.addEventListener("click", () => {
   if (!state.selectedId) return;
 
